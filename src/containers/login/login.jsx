@@ -21,7 +21,7 @@ export default class Register extends Component {
 
     register = () => {
         console.log(this.state)
-    }
+    };
 
     goRegister = () => {
         //跳转到登陆的路由
@@ -31,8 +31,8 @@ export default class Register extends Component {
     render() {
         return (
             <div>
-                <Logo/>
                 <NavBar>用户登陆</NavBar>
+                <Logo/>
                 <WingBlank>
                     <List>
                         <WhiteSpace/>

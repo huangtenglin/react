@@ -1,6 +1,9 @@
-import Ajax from './ajax';
 
-//请求注册
-export const reqRegister = (user) =>Ajax('/register',user,'POST');
-//请求登陆
-export const reqLogin = (user) => Ajax('/login',user, 'POST');
+import ajax from './ajax';
+
+//暴露模块接口
+const BASE = '';
+
+export const reqRegister = (user) =>ajax.get(BASE + "/register",user,"POST");
+
+export const reqLogin = (user)=>ajax(BASE +'/login',user,"POST");

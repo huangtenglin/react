@@ -1,47 +1,43 @@
 import React, {Component} from 'react';
 import {AUTH_SUCCESS, ERROR_MSG} from "./types";
 import {reqRegister, reqLogin} from '../api';
-
-//同步异步错误信息
-const errorMsg = (msg) => ({type: ERROR_MSG, data: msg});
-const authSuccess = (user) => ({type: AUTH_SUCCESS, data: user})
-
-//前台检查注册发送过来的信息
-export function register(username, password, password2, type) {
-    if (!username || !password) {
-        errorMsg("用户名不能为空");
-    }
-    if (password !== password2) {
-        errorMsg("密码错误")
+//加载同步请求信息
+const authSuccess = (user) => ({type: AUTH_SUCCESS, user});
+const errorMsg = (msg) => ({type: ERROR_MSG, msg});
+//加载注册的异步请求消息
+export function register(user) {
+    const {username, password, password2, type} = user;
+    if (!username ||!password) {
+        return errorMsg("用户名或者密码不能为空");
+    } else if (password !== password2) {
+        return errorMsg("密码验证错误");
     }
     return async dispatch => {
-        //异步ajax请求，得到响应
-        const response = await reqRegister({username, password, type});
-        //获取请求体数据
+        const response = await reqRegister({username, password, type}); //异步获取请求数据
         const result = response.data;
-        //判断用户注册是否成功
         if (result.code === 0) {
-            return dispatch(authSuccess(result.data));
+            dispatch(authSuccess(result.data));
         } else {
-            return dispatch(errorMsg(result.msg));
+            dispatch(errorMsg(result.msg))
+        }
+    }
+}
+//加载登陆的异步请求消息
+export function login(user){
+    return async dispatch =>{
+        const {username,password} = user;
+        if(!username || !password){
+            dispatch(errorMsg("账号或者密码不能为空"));
+        }
+        const response = await reqLogin({username,password});
+        const result = response.data;
+        if(result.code === 0){
+            //发布成功的action
+            dispatch(authSuccess(result.data));
+        }else{
+            //发布失败的action
+            dispatch(errorMsg(result.msg))
         }
     }
 }
 
-//前台检查后台发送过来的信息
-export const login =({username,password})=>{
-    if(!username||!password){
-        errorMsg("用户名不能为空或者密码不能为空");
-    }
-    return async dispatch =>{
-        const response = await reqLogin({username,password,type});
-        //获取请求数据
-        const result = response.data;
-        //进行数据判断
-        if(result.code === 0){
-            return dispatch(authSuccess(result.data));
-        }else{
-            return dispatch(errorMsg(result.msg));
-        }
-    }
-};
