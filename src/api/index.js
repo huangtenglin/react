@@ -6,4 +6,4 @@ const BASE = '';
 
 export const reqRegister = (user) =>ajax(BASE + "/register",user,"POST");
 
-export const reqLogin = (user)=>ajax(BASE +'/login',user,"POST");
+export const reqLogin = (user)=> ajax(BASE +'/login',user,"POST");

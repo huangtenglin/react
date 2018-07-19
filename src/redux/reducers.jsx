@@ -1,5 +1,6 @@
 //多个组件的时候
-import {combineReducers} from 'redux'
+import {combineReducers} from 'redux';
+import {getRedirectPath} from '../utils';
 import {
     AUTH_SUCCESS,
     ERROR_MSG,
@@ -15,7 +16,9 @@ function user(state = initUser, action) {
     switch (action.type) {
         case AUTH_SUCCESS:
             const user = action.data;
-            return {...user.data,redirectTo: getRedirectTo(user.type, user.header)};
+            console.log('case li mian de user');
+            console.log(user);
+            return {...user,redirectTo: getRedirectPath(user.type, user.header)};
         case ERROR_MSG:
             return {...state,msg: action.data};
         default:
@@ -27,16 +30,3 @@ function user(state = initUser, action) {
 export default combineReducers({
     user,
 })
-
-function getRedirectTo(type,header){
-    let path = '';
-    if(type === 'dashen'){
-        path = '/dashen';
-    }else{
-        path = '/laoban';
-    }
-    if(!header){
-        path += 'info';
-    }
-    return path;
-}

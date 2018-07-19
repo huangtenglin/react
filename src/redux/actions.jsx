@@ -28,6 +28,7 @@ export function login(user){
         const {username,password} = user;
         if(!username || !password){
             dispatch(errorMsg("账号或者密码不能为空"));
+            return;
         }
         const response = await reqLogin({username,password});
         const result = response.data;
