@@ -14,7 +14,8 @@ const initUser = {
 function user(state = initUser, action) {
     switch (action.type) {
         case AUTH_SUCCESS:
-            return {...action.data,redirectTo :"/"};
+            const user = action.data;
+            return {...user.data,redirectTo: getRedirectTo(user.type, user.header)};
         case ERROR_MSG:
             return {...state,msg: action.data};
         default:
@@ -26,3 +27,16 @@ function user(state = initUser, action) {
 export default combineReducers({
     user,
 })
+
+function getRedirectTo(type,header){
+    let path = '';
+    if(type === 'dashen'){
+        path = '/dashen';
+    }else{
+        path = '/laoban';
+    }
+    if(!header){
+        path += 'info';
+    }
+    return path;
+}

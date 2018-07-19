@@ -1,11 +1,10 @@
-import {createStore,applyMiddleware} from 'redux';
-
-import thunk from 'redux-thunk';
-
-import reducers from './reducerx';
-
+/*
+redux管理状态的核心对象
+ */
+import {createStore, applyMiddleware} from 'redux'
+import thunk from 'redux-thunk'
 import {composeWithDevTools} from 'redux-devtools-extension'
 
-const store = createStore(reducers,composeWithDevTools(applyMiddleware(thunk)));
+import reducers from './reducers'  // 它是一个reducer函数
 
-export default store;
+export default createStore(reducers, composeWithDevTools(applyMiddleware(thunk)))

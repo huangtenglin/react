@@ -2,8 +2,8 @@ import React, {Component} from 'react';
 import {AUTH_SUCCESS, ERROR_MSG} from "./types";
 import {reqRegister, reqLogin} from '../api';
 //加载同步请求信息
-const authSuccess = (user) => ({type: AUTH_SUCCESS, user});
-const errorMsg = (msg) => ({type: ERROR_MSG, msg});
+const authSuccess = (user) => ({type: AUTH_SUCCESS, data:user});
+const errorMsg = (msg) => ({type: ERROR_MSG, data:msg});
 //加载注册的异步请求消息
 export function register(user) {
     const {username, password, password2, type} = user;
