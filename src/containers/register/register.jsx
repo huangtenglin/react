@@ -6,7 +6,7 @@ import {NavBar, List, WingBlank, WhiteSpace, InputItem, Button, Radio} from 'ant
 import {connect} from 'react-redux'
 import {Redirect} from 'react-router-dom'
 
-import Logo from '../../component/logo/Logo'
+import Logo from '../../component/logo/logo'
 import {register} from '../../redux/actions'
 // const Item = List.Item
 

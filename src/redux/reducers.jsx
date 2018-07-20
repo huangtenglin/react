@@ -4,6 +4,8 @@ import {getRedirectPath} from '../utils';
 import {
     AUTH_SUCCESS,
     ERROR_MSG,
+    RECEIVE_USER,
+    RESET_USER
 }
     from "./types";
 const initUser = {
@@ -16,10 +18,12 @@ function user(state = initUser, action) {
     switch (action.type) {
         case AUTH_SUCCESS:
             const user = action.data;
-            console.log('case li mian de user');
-            console.log(user);
             return {...user,redirectTo: getRedirectPath(user.type, user.header)};
         case ERROR_MSG:
+            return {...state,msg: action.data};
+        case RECEIVE_USER:
+            return action.data;
+        case RESET_USER:
             return {...state,msg: action.data};
         default:
             return state;
