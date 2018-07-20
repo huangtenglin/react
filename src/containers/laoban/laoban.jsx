@@ -7,9 +7,6 @@ class LaoBan extends Component {
         return (
             <div>
                 <h1>这是老板列表</h1>
-                <h1>这是老板列表</h1>
-                <h1>这是老板列表</h1>
-                <h1>这是老板列表</h1>
             </div>
         )
     }
