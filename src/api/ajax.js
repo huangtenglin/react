@@ -4,7 +4,7 @@
  */
 import axios from 'axios';
 
-export default function ajax(url, data, type) {
+export default function ajax(url, data={}, type='GET') {
     if (type === "GET") {
         let dataStr = ''; //?username= 'zhangsan'& password = '123'
         Object.keys(data).forEach(function (key) {

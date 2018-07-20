@@ -68,13 +68,20 @@ export function updateUser(user){
 export function getUser(){
     return async dispatch=>{
         //发送异步请求的消息
+        console.log('wolaile');
         const response = await reqUser();
+        console.log('woshibaie');
         //获取得到的请求结果
         const result = response.data;
         if(result.code === 0){
-            dispatch(result.data);
+            console.log('0000');
+            dispatch(receiveUser(result.data));
         }else{
-            dispatch(result.msg);
+            console.log('1111');
+            dispatch(resetUser(result.msg));
         }
     }
 }
+//同步action就是返回一个action的对象  然后去促发dispatch  然后调用reducer函数
+
+//异步action就是发送Ajax请求等异步操作异步任务的代码。异步action返回的是一个dispatch参数的函数，这个函数是异步的，会去主动分发一个同步action，使之调用促发reducer，使之状态能够更新

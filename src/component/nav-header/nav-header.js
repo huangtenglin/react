@@ -5,9 +5,7 @@ class NavHeader extends Component {
     render () {
         return (
             <div>
-                <Button type='primary'>
-                    头部导航
-                </Button>
+
             </div>
         )
     }

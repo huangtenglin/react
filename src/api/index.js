@@ -10,4 +10,4 @@ export const reqLogin = (user)=> ajax(BASE +'/login',user,"POST");
 
 export const reqUpdateUser = (user) => ajax(BASE+'/update', user,'POST');
 
-export const reqUser =  () =>ajax('/user');
+export const reqUser =  () => ajax(BASE +'/user');
