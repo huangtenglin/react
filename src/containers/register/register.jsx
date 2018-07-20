@@ -1,33 +1,55 @@
+/*
+注册组件
+ */
 import React, {Component} from 'react'
 import {NavBar, List, WingBlank, WhiteSpace, InputItem, Button, Radio} from 'antd-mobile'
-import Logo from "../../component/logo/Logo";
+import {connect} from 'react-redux'
+import {Redirect} from 'react-router-dom'
 
-export default class Register extends Component {
+import Logo from '../../component/logo/logo'
+import {register} from '../../redux/actions'
+// const Item = List.Item
+
+// Register是UI组件
+class Register extends Component {
+
+    // 定义初始化状态
     state = {
         username: '',
         password: '',
-        type: 'dashen'
+        password2: '',
+        type: 'dashen'  // laoban
     };
-    handleChange = (name,val) =>{
+    handleChange = (name, val) => {
         this.setState({
-            [name]: val, //属性名是name的值，不是name本身
+            [name]: val  // 属性名是name的值, 而是name本身
         })
+    }
+
+    register = () => {
+        console.log(this.state);//用来接收自身属性的变化
+        this.props.register(this.state)
     };
-    register = () =>{
-        console.log(this.state);
-    };
-    goLogin = () =>{
-        this.props.history.replace('/login');//跳转路由地址
-    };
+
+    goLogin = () => {
+        //跳转到登陆的路由
+        this.props.history.replace('/login')
+    }
+
     render() {
-        const {type} = this.state
+        const {type} = this.state;
+        const {msg, redirectTo} = this.props.user;
+        if(redirectTo) {
+            // 跳转到redirectTo
+            return <Redirect to={redirectTo}/>
+        }
         return (
             <div>
-                <Logo/>
                 <NavBar>用户注册</NavBar>
-                {/*<Logo/>*/}
+                <Logo/>
                 <WingBlank>
                     <List>
+                        <p className='error-msg'>{msg}</p>
                         <WhiteSpace/>
                         <InputItem placeholder='请输入用户名' onChange={val=> this.handleChange('username', val)}>用户名:</InputItem>
                         <WhiteSpace/>
@@ -43,11 +65,29 @@ export default class Register extends Component {
                         <WhiteSpace/>
                         <Button type='primary' onClick={this.register}>注&nbsp;&nbsp;册</Button>
                         <WhiteSpace/>
-                        <Button onClick={this.goLogin}>还没有账户</Button>
+                        <Button onClick={this.goLogin}>已有账户</Button>
                     </List>
                 </WingBlank>
             </div>
         )
     }
-
 }
+
+// 向外暴露是包含UI组件的容器组件
+export default connect(
+    state => ({user: state.user}),
+    {register}
+    /*
+    function register(user) {
+        dispatch(register(user))
+      }
+     */
+)(Register)
+
+/*
+组件的render什么时候执行?
+1. 初始显示
+2. 更新显示
+    1). 自身状态变化 : this.setState()
+    2). 接收的外部数据属性变化了
+ */

@@ -1,47 +1,80 @@
 import React, {Component} from 'react';
-import {AUTH_SUCCESS, ERROR_MSG} from "./types";
-import {reqRegister, reqLogin} from '../api';
-
-//同步异步错误信息
-const errorMsg = (msg) => ({type: ERROR_MSG, data: msg});
-const authSuccess = (user) => ({type: AUTH_SUCCESS, data: user})
-
-//前台检查注册发送过来的信息
-export function register(username, password, password2, type) {
-    if (!username || !password) {
-        errorMsg("用户名不能为空");
-    }
-    if (password !== password2) {
-        errorMsg("密码错误")
+import {
+    AUTH_SUCCESS,
+    ERROR_MSG,
+    RECEIVE_USER,
+    RESET_USER,
+} from "./types";
+import {reqRegister, reqLogin,reqUpdateUser,reqUser} from '../api';
+//加载同步请求信息
+const authSuccess = (user) => ({type: AUTH_SUCCESS, data:user});
+//异步错误用户操作
+const errorMsg = (msg) => ({type: ERROR_MSG, data:msg});
+//更新用户操作
+const receiveUser = (user) => ({type: RECEIVE_USER, data: user});
+//重置用户操作
+const resetUser = (user) =>({type:RESET_USER,data:user});
+//加载注册的异步请求消息
+export function register(user) {
+    const {username, password, password2, type} = user;
+    if (!username ||!password) {
+        return errorMsg("用户名或者密码不能为空");
+    } else if (password !== password2) {
+        return errorMsg("密码验证错误");
     }
     return async dispatch => {
-        //异步ajax请求，得到响应
-        const response = await reqRegister({username, password, type});
-        //获取请求体数据
+        const response = await reqRegister({username, password, type}); //异步获取请求数据
         const result = response.data;
-        //判断用户注册是否成功
         if (result.code === 0) {
-            return dispatch(authSuccess(result.data));
+            dispatch(authSuccess(result.data));
         } else {
-            return dispatch(errorMsg(result.msg));
+            dispatch(errorMsg(result.msg))
         }
     }
 }
-
-//前台检查后台发送过来的信息
-export const login =({username,password})=>{
-    if(!username||!password){
-        errorMsg("用户名不能为空或者密码不能为空");
-    }
+//加载登陆的异步请求消息
+export function login(user){
     return async dispatch =>{
-        const response = await reqLogin({username,password,type});
-        //获取请求数据
+        const {username,password} = user;
+        if(!username || !password){
+            dispatch(errorMsg("账号或者密码不能为空"));
+            return;
+        }
+        const response = await reqLogin({username,password});
         const result = response.data;
-        //进行数据判断
         if(result.code === 0){
-            return dispatch(authSuccess(result.data));
+            //发布成功的action
+            dispatch(authSuccess(result.data));
         }else{
-            return dispatch(errorMsg(result.msg));
+            //发布失败的action
+            dispatch(errorMsg(result.msg))
         }
     }
-};
+}
+//异步更新用户信息
+export function updateUser(user){
+   return async dispatch =>{
+       //发送异步ajax请求
+       const response = await reqUpdateUser(user);
+       const result = response.data;
+       if(result.code === 0){
+           dispatch(receiveUser(result.data));
+       }else{
+           dispatch(resetUser(result.msg));
+       }
+   }
+}
+//异步获取用户信息
+export function getUser(){
+    return async dispatch=>{
+        //发送异步请求的消息
+        const response = await reqUser();
+        //获取得到的请求结果
+        const result = response.data;
+        if(result.code === 0){
+            dispatch(result.data);
+        }else{
+            dispatch(result.msg);
+        }
+    }
+}
