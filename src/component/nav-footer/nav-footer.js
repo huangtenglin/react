@@ -1,15 +1,12 @@
 import React, {Component} from 'react';
 import {TabBar} from 'antd-mobile';
-import propsType from 'prop-types';
+
 import {withRouter} from 'react-router-dom';
 
 class NavFooter extends Component {
-    static propTypes = {
-        navList: propsType.array.required,
-    };
 
     render() {
-        const navList = this.props.navList.filter((nav)=>nav !== nav.hide);
+        const navList = this.props.navList.filter((nav)=>!nav.hide);
         const path = this.props.location.pathname;
         return (
             <div>

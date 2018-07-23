@@ -9,3 +9,11 @@ export const ERROR_MSG = 'ERROR_MSG';
 export const RECEIVE_USER = 'RECEIVE_USER';
 //重置用户
 export const RESET_USER = 'RESET_USER';
+//用户列表
+export const RECEIVE_USER_LIST = 'RECEIVE_USER_LIST';
+//接收消息列表
+export const RECEIVE_CHAT_MSGS = 'RECEIVE_CHAT_MSGS';
+//接收一条消息
+export const RECEIVE_CHAT_MSG = 'RECEIVE_CHAT_MSG';
+//标识消息已读
+export const MSG_READ = 'MSG_READ';

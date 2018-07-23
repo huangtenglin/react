@@ -1,18 +1,26 @@
+/*
+老板的主界面路由
+ */
+import React, {Component} from 'react'
+import {connect} from 'react-redux'
 
-import React, {Component} from 'react';
-import {connect} from "react-redux";
-class LaoBan extends Component {
+import UserList from '../../component/user-list/user-list';
+import {getUserList} from '../../redux/actions'
 
-    render () {
-        return (
-            <div>
-                <h1>这是老板列表</h1>
-            </div>
-        )
-    }
+class Laoban extends Component {
 
+  componentDidMount () {
+    this.props.getUserList('dashen')
+  }
+
+  render() {
+    return (
+      <UserList userList={this.props.userList}/>
+    )
+  }
 }
-export default connect(
-    state=>({user:state.user}),
 
-)(LaoBan)
+export default connect(
+  state => ({userList: state.userList}),
+  {getUserList}
+)(Laoban)

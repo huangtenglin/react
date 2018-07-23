@@ -7,6 +7,7 @@ import Login from './containers/login/login'
 import register from './containers/register/register';
 import Main from './containers/main/main'
 import './assets/css/index.less';
+// import './test/test'
 ReactDOM.render((
     <Provider store={store}>
         <HashRouter>

@@ -1,21 +1,26 @@
 /*
-大神主界面路由
+大神的主界面路由
  */
-import React, {Component} from 'react';
+import React, {Component} from 'react'
+import {connect} from 'react-redux'
 
-import {connect} from 'react-redux';
-class DaShen extends Component {
+import UserList from '../../component/user-list/user-list';
+import {getUserList} from '../../redux/actions'
 
-  render () {
-    return (
-        <div>
-            <h1>这是大神列表</h1>
-        </div>
-    )
+class Dashen extends Component {
+
+  componentDidMount () {
+    this.props.getUserList('laoban')
   }
 
+  render() {
+    return (
+      <UserList userList={this.props.userList}/>
+    )
+  }
 }
-export default connect(
-    state=>({user:state.user}),
 
-)(DaShen)
+export default connect(
+  state => ({userList: state.userList}),
+  {getUserList}
+)(Dashen)
